@@ -44,7 +44,7 @@ class MainActivity : ComponentActivity() {
             AppNavigation(viewModel = viewModel, geocoder = geocoder)
         }
 
-        //Status Bar Color SetUp
+        //Status Bar Color SetUp to be integrated in new Android API
         /*window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.statusBarColor = ThemeColors.button.hashCode();*/
     }
