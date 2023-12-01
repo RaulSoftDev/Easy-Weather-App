@@ -3,6 +3,7 @@ package com.underdoggameworks.easyweather.presentation
 import android.location.Geocoder
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -45,63 +46,65 @@ fun WeatherCard(
     val weeklyDate : String = LocalDate.now().dayOfWeek.name.lowercase().replaceFirstChar(Char::titlecase)
 
     state.weatherInfo?.currentWeatherData?.let { data ->
-        Card(
-            backgroundColor = backgroundColor,
-            shape = RoundedCornerShape(10.dp),
-            modifier = modifier.padding(horizontal = 16.dp),
-            elevation = 0.dp
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+        Box{
+            Card(
+                backgroundColor = backgroundColor,
+                shape = RoundedCornerShape(10.dp),
+                modifier = modifier.padding(horizontal = 16.dp).align(Alignment.Center),
+                elevation = 0.dp
             ) {
-                Row(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ){
-                    Text(
-                        text = Geolocation().getAddressLocation(geocoder = geocoder, viewModel = viewModel),
-                        color = Color.White,
-                        fontSize = 19.sp
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Text(
-                        text = "$weeklyDate ${
-                            data.time.format(
-                                DateTimeFormatter.ofPattern("HH:mm")
-                            )
-                        }",
-                        color = Color.White,
-                        fontSize = 19.sp
-                    )
-                }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
+                        .padding(vertical = 16.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.SpaceEvenly
+                    verticalArrangement = Arrangement.SpaceBetween
                 ) {
-                    Image(
-                        painter = painterResource(id = data.weatherType.iconRes),
-                        contentDescription = null,
-                        modifier = Modifier.size(200.dp)
-                    )
-                    Text(
-                        text = "${data.temperatureCelsius}°C",
-                        color = Color.White,
-                        fontSize = 50.sp
-                    )
-                    Text(
-                        text = data.weatherType.weatherDesc,
-                        color = Color.White,
-                        fontSize = 20.sp
-                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ){
+                        Text(
+                            text = Geolocation().getAddressLocation(geocoder = geocoder, viewModel = viewModel),
+                            color = Color.White,
+                            fontSize = 19.sp
+                        )
+                        Spacer(Modifier.weight(1f))
+                        Text(
+                            text = "$weeklyDate ${
+                                data.time.format(
+                                    DateTimeFormatter.ofPattern("HH:mm")
+                                )
+                            }",
+                            color = Color.White,
+                            fontSize = 19.sp
+                        )
+                    }
+                    Column(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Image(
+                            painter = painterResource(id = data.weatherType.iconRes),
+                            contentDescription = null,
+                            modifier = Modifier.size(200.dp)
+                        )
+                        Text(
+                            text = "${data.temperatureCelsius}°C",
+                            color = Color.White,
+                            fontSize = 50.sp
+                        )
+                        Text(
+                            text = data.weatherType.weatherDesc,
+                            color = Color.White,
+                            fontSize = 20.sp
+                        )
+                    }
+                    WeatherInfo(data = data)
                 }
-                WeatherInfo(data = data)
             }
         }
     }

@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -34,65 +35,70 @@ fun WeatherForecast(
     modifier: Modifier = Modifier
 ) {
     state.weatherInfo?.weatherDataPerDay?.get(0)?.let { data ->
-        Card(
-            backgroundColor = ThemeColors.window.copy(alpha = 0.3f),
-            shape = RoundedCornerShape(10.dp),
-            modifier = modifier.padding(16.dp),
-            elevation = 0.dp
+        Box(
+            modifier = Modifier.fillMaxSize()
         ){
-            Column(
-                modifier = modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 16.dp, vertical = 2.dp),
-                verticalArrangement = Arrangement.SpaceEvenly
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround,
-                    verticalAlignment = Alignment.CenterVertically
-                ){
-                    Text(
-                        text = "Today",
-                        fontSize = 20.sp,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Spacer(Modifier.weight(1f))
-                    Box(
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Button(
-                            onClick = { navController.navigate(route = AppScreens.WeekScreen.route) },
-                            shape = RoundedCornerShape(20.dp),
-                            colors = ButtonDefaults.buttonColors(backgroundColor = ThemeColors.button, contentColor = Color.White),
-                            elevation = ButtonDefaults.elevation(
-                                defaultElevation = 2.dp,
-                                pressedElevation = 8.dp,
-                                disabledElevation = 0.dp,
-                                hoveredElevation = 4.dp,
-                                focusedElevation = 4.dp)
+            Card(
+                backgroundColor = ThemeColors.window.copy(alpha = 0.3f),
+                shape = RoundedCornerShape(10.dp),
+                modifier = modifier.padding(16.dp).width(650.dp).height(300.dp).align(Alignment.Center),
+                elevation = 0.dp
+            ){
+                Column(
+                    modifier = modifier
+                        .fillMaxSize()
+                        .padding(horizontal = 16.dp, vertical = 2.dp),
+                    verticalArrangement = Arrangement.SpaceEvenly,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceAround,
+                        verticalAlignment = Alignment.CenterVertically
+                    ){
+                        Text(
+                            text = "Today",
+                            fontSize = 20.sp,
+                            color = Color.White,
+                            fontWeight = FontWeight.Bold
                         )
-                        {
-                            Text(
-                                text = "Week",
-                                fontSize = 18.sp,
-                                color = Color.White
+                        Spacer(Modifier.weight(1f))
+                        Box(
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Button(
+                                onClick = { navController.navigate(route = AppScreens.WeekScreen.route) },
+                                shape = RoundedCornerShape(20.dp),
+                                colors = ButtonDefaults.buttonColors(backgroundColor = ThemeColors.button, contentColor = Color.White),
+                                elevation = ButtonDefaults.elevation(
+                                    defaultElevation = 2.dp,
+                                    pressedElevation = 8.dp,
+                                    disabledElevation = 0.dp,
+                                    hoveredElevation = 4.dp,
+                                    focusedElevation = 4.dp)
                             )
+                            {
+                                Text(
+                                    text = "Week",
+                                    fontSize = 18.sp,
+                                    color = Color.White
+                                )
+                            }
                         }
                     }
+                    LazyRow(content = {
+                        items(data) { weatherData ->
+                            if(weatherData.time >= LocalDateTime.now().plusHours(1)){
+                                HourlyWeatherDisplay(
+                                    weatherData = weatherData,
+                                    modifier = Modifier
+                                        .height(100.dp)
+                                        .padding(horizontal = 16.dp)
+                                )
+                            }
+                        }
+                    })
                 }
-                LazyRow(content = {
-                    items(data) { weatherData ->
-                        if(weatherData.time >= LocalDateTime.now().plusHours(1)){
-                            HourlyWeatherDisplay(
-                                weatherData = weatherData,
-                                modifier = Modifier
-                                    .height(100.dp)
-                                    .padding(horizontal = 16.dp)
-                            )
-                        }
-                    }
-                })
             }
         }
     }
