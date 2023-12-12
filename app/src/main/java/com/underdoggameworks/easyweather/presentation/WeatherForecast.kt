@@ -88,13 +88,41 @@ fun WeatherForecast(
                     }
                     LazyRow(content = {
                         items(data) { weatherData ->
-                            if(weatherData.time >= LocalDateTime.now().plusHours(1)){
-                                HourlyWeatherDisplay(
-                                    weatherData = weatherData,
-                                    modifier = Modifier
-                                        .height(100.dp)
-                                        .padding(horizontal = 16.dp)
-                                )
+                            //Check if current day hour is prior to 20:00h
+                            if(weatherData.time.hour < 20){
+                                //Check if current hour minute is prior to 30
+                                if(LocalDateTime.now().minute < 30){
+                                    if(weatherData.time >= LocalDateTime.now()){
+                                        HourlyWeatherDisplay(
+                                            weatherData = weatherData,
+                                            modifier = Modifier
+                                                .height(100.dp)
+                                                .padding(horizontal = 16.dp)
+                                        )
+                                    }
+                                }
+                                //Current hour minute is following 30
+                                else{
+                                    if(weatherData.time >= LocalDateTime.now().plusHours(1)){
+                                        HourlyWeatherDisplay(
+                                            weatherData = weatherData,
+                                            modifier = Modifier
+                                                .height(100.dp)
+                                                .padding(horizontal = 16.dp)
+                                        )
+                                    }
+                                }
+                            }
+                            //current day hour is 20:00h and following
+                            else{
+                                if(weatherData.time >= LocalDateTime.now().minusHours(3)){
+                                    HourlyWeatherDisplay(
+                                        weatherData = weatherData,
+                                        modifier = Modifier
+                                            .height(100.dp)
+                                            .padding(horizontal = 16.dp)
+                                    )
+                                }
                             }
                         }
                     })

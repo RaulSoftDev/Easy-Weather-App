@@ -1,6 +1,7 @@
 package com.underdoggameworks.easyweather.domain.weather
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.Keep
 import com.underdoggameworks.easyweather.R
 
 sealed class WeatherType(

@@ -1,7 +1,6 @@
 package com.underdoggameworks.easyweather.presentation
 
 import android.Manifest
-import android.graphics.Color
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
@@ -22,11 +21,9 @@ class MainActivity : ComponentActivity() {
     private val viewModel: WeatherViewModel by viewModels()
     private lateinit var permissionLauncher: ActivityResultLauncher<Array<String>>
     lateinit var geocoder : Geocoder
-    lateinit var statusColor: Color
+    //lateinit var statusColor: Color
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        println(Build.VERSION.SDK_INT)
-
         geocoder = Geocoder(this, Locale.getDefault())
 
         super.onCreate(savedInstanceState)
@@ -39,6 +36,9 @@ class MainActivity : ComponentActivity() {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
         ))
+
+        //Log current SDK version
+        println(Build.VERSION.SDK_INT)
 
         setContent {
             AppNavigation(viewModel = viewModel, geocoder = geocoder)

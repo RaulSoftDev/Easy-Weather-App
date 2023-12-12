@@ -1,7 +1,9 @@
 package com.underdoggameworks.easyweather.data.remote
 
+import androidx.annotation.Keep
 import com.squareup.moshi.Json
 
+@Keep
 data class WeatherDataDto(
     val time: List<String>,
     @field:Json(name = "temperature_2m")

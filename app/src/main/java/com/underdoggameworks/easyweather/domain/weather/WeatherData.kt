@@ -1,5 +1,6 @@
 package com.underdoggameworks.easyweather.domain.weather
 
+import androidx.annotation.Keep
 import java.time.LocalDateTime
 
 data class WeatherData(
