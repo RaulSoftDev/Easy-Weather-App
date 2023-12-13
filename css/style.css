@@ -2509,3 +2509,15 @@ body{
   }
 }
 
+@media(max-width:991px){
+  .content-desktop{
+	  display:none;
+	}
+}
+
+@media(max-width:425px){
+	.max-w-\[192px\]{
+		max-width: 192px;
+	}
+}
+
